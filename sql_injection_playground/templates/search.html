@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Search</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body { padding-top: 20px; }
+        .container { max-width: 800px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">Product Search</h1>
+        <form action="/search" method="GET" class="mb-4">
+            <div class="form-group">
+                <label for="query">Search for products:</label>
+                <input type="text" class="form-control" id="query" name="query" placeholder="e.g., Laptop, Keyboard">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
+
+        {% if query %}
+            {% if message %}
+                <div class="alert alert-info" role="alert">
+                    {{ message }}
+                </div>
+            {% endif %}
+            <h2 class="mt-5">Results for "{{ query }}":</h2>
+            {% if products %}
+                <ul class="list-group">
+                    {% for product in products %}
+                        <li class="list-group-item">
+                            <h5>{{ product.name }}</h5>
+                            <p>{{ product.description }}</p>
+                            <p><strong>Price:</strong> ${{ "%.2f"|format(product.price) }}</p>
+                            <p><strong>Category:</strong> {{ product.category }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                {% if not message %}
+                    <p>No products found matching your query.</p>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+
+        <p class="mt-5"><a href="/">Back to Home</a></p>
+    </div>
+</body>
+</html>

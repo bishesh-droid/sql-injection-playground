@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Injection Playground</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body { padding-top: 20px; }
+        .container { max-width: 800px; }
+        .alert-warning { background-color: #fff3cd; border-color: #ffeeba; color: #856404; }
+        .footer { margin-top: 50px; padding: 20px; border-top: 1px solid #eee; text-align: center; color: #777; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4 text-center">SQL Injection Playground</h1>
+        <div class="alert alert-warning" role="alert">
+            <strong>WARNING:</strong> This application is intentionally vulnerable to SQL Injection for educational purposes. DO NOT use this code in production environments. Only run on isolated, authorized systems.
+        </div>
+
+        <h2 class="mt-5">Vulnerable Features:</h2>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <h4><a href="/login">Login Page</a></h4>
+                <p>Vulnerable to <strong>Login Bypass</strong>. Try `admin'--` as username and any password.</p>
+            </li>
+            <li class="list-group-item">
+                <h4><a href="/search">Product Search</a></h4>
+                <p>Vulnerable to <strong>Error-based</strong> and <strong>UNION-based SQL Injection</strong>. Try `%' UNION SELECT NULL,sql,NULL,NULL FROM sqlite_master--` to list tables or `%' UNION SELECT NULL,username,password,NULL FROM users--` to dump user credentials.</p>
+            </li>
+            <li class="list_group-item">
+                <h4><a href="/product?id=1">Product Details (Vulnerable)</a></h4>
+                <p>Vulnerable to <strong>Boolean-based Blind</strong> and <strong>Time-based Blind SQL Injection</strong> via the `id` parameter. Try `?id=1 AND 1=2` for boolean or `?id=1 AND (SELECT sqlite_sleep(5))` for time-based.</p>
+            </li>
+        </ul>
+
+        <h2 class="mt-5">Secure Features:</h2>
+        <ul class="list-group">
+            <li class="list-group-item">
+                <h4><a href="/secure_product?id=1">Product Details (Secure)</a></h4>
+                <p>This endpoint uses parameterized queries to prevent SQL Injection. It is NOT vulnerable.</p>
+            </li>
+        </ul>
+
+        <div class="footer">
+            <p>&copy; 2023 SQL Injection Playground. For educational use only.</p>
+            <p>Remember: Practice on authorized targets only!</p>
+        </div>
+    </div>
+</body>
+</html>
